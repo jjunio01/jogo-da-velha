@@ -7,5 +7,10 @@
 -- Your code here
 
 
- tab = require("tabuleiro")
+ local controlador = require("controller")
+
+controlador:draw()
+
+
+
 
