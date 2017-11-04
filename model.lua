@@ -2,7 +2,8 @@
 model = {
 	
 	tabuleiro = {},
-	jogador = {}
+	jogador = nil
+	
 }
 
 function model:jogada()

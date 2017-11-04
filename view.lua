@@ -1,21 +1,20 @@
 view = {
 	
 	controlador = nil,
-	jogadorAtual = nil
+	jogadorAtual = nil,
+	tabuleiro = nil
 
 }
 
-function view:draw(controlador)
-	self.controlador = controlador	
+function view:draw(controller)
+	self.controlador = controller	
 	self:desenharLinhas()
 	self:desenharTabuleiro()
 end
 
 function view:desenharCirculoNaTela(posicao)
-
 	local width = display.contentWidth
 	local height = display.contentHeight
-
 	if posicao == 1 then
 		local circulo = display.newCircle(width/6, height/6, 30)
 	elseif posicao == 2 then
@@ -34,9 +33,7 @@ function view:desenharCirculoNaTela(posicao)
 		local circulo = display.newCircle(width/ 2, height *5/6, 30)
 	elseif posicao == 9 then
 		local circulo = display.newCircle(width * 5/6, height *5/6, 30)
-	end
-
-	
+	end	
 end
 
 function view:desenharXNaTela(posicao)
@@ -84,41 +81,70 @@ function view:desenharLinhas()
 		
 end
 
-function novaJogada(evento)
+function view:jogada(posicao)
 
-	if evento.target == tabuleiro[1][1] then
-		view:desenharCirculoNaTela(1)
-	end
-	if evento.target == tabuleiro[1][2] then
-		view:desenharCirculoNaTela(2)
-	end
-	if evento.target == tabuleiro[1][3] then
-		view:desenharCirculoNaTela(3)
-	end
-	if evento.target == tabuleiro[2][1] then
-		view:desenharCirculoNaTela(4)
-	end
-	if evento.target == tabuleiro[2][2] then
-		view:desenharCirculoNaTela(5)
-	end
-	if evento.target == tabuleiro[2][3] then
-		view:desenharCirculoNaTela(6)
-	end
-	if evento.target == tabuleiro[3][1] then
-		view:desenharCirculoNaTela(7)
-	end
-	if evento.target == tabuleiro[3][2] then
-		view:desenharCirculoNaTela(8)
-	end
-	if evento.target == tabuleiro[3][3] then
-		view:desenharCirculoNaTela(9)
+	local jogador = view.controlador.jogadorAtual()
+	if jogador == "X" then
+		self:desenharXNaTela(posicao)
+	elseif jogador == "O" then
+		self:desenharCirculoNaTela(posicao)
 	end
 end
 
 
-function view:desenharTabuleiro()
 
-	tabuleiro = {}
+function novaJogada(evento, jogador)
+
+	if evento.phase == "began" then
+		if evento.target == tabuleiro[1][1] then
+			view:jogada(1)
+			local removerTouch = tabuleiro[1][1]
+			removerTouch:removeEventListener("touch",novaJogada)
+		end
+		if evento.target == tabuleiro[1][2] then
+			view:jogada(2)
+			local removerTouch = tabuleiro[1][2]
+			removerTouch:removeEventListener("touch",novaJogada)
+		end
+		if evento.target == tabuleiro[1][3] then
+			view:jogada(3)
+			local removerTouch = tabuleiro[1][3]
+			removerTouch:removeEventListener("touch",novaJogada)
+		end
+		if evento.target == tabuleiro[2][1] then
+			view:jogada(4)
+			local removerTouch = tabuleiro[2][1]
+			removerTouch:removeEventListener("touch",novaJogada)
+		end
+		if evento.target == tabuleiro[2][2] then
+			view:jogada(5)
+			local removerTouch = tabuleiro[2][2]
+			removerTouch:removeEventListener("touch",novaJogada)
+		end
+		if evento.target == tabuleiro[2][3] then
+			view:jogada(6)
+			local removerTouch = tabuleiro[2][3]
+			removerTouch:removeEventListener("touch",novaJogada)
+		end
+		if evento.target == tabuleiro[3][1] then
+			view:jogada(7)
+			local removerTouch = tabuleiro[3][1]
+			removerTouch:removeEventListener("touch",novaJogada)
+		end
+		if evento.target == tabuleiro[3][2] then
+			view:jogada(8)
+			local removerTouch = tabuleiro[3][2]
+			removerTouch:removeEventListener("touch",novaJogada)
+		end
+		if evento.target == tabuleiro[3][3] then
+			view:jogada(9)
+			local removerTouch = tabuleiro[3][3]
+			removerTouch:removeEventListener("touch",novaJogada)
+		end
+	end
+end
+
+function view:desenharTabuleiro()
 
 	local larguraTela = display.contentWidth
 	local alturaTela = display.contentHeight
@@ -126,6 +152,8 @@ function view:desenharTabuleiro()
 	local larguraRet = larguraTela/3 - 2
 	local alturaRet = alturaTela/3 - 2
 	controleDois = 1
+
+	tabuleiro = {}
 
 	for linha = 1, 3 do
 

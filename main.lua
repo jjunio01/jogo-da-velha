@@ -12,5 +12,5 @@
 controlador:draw()
 
 
-local x = require("model")
+
 
