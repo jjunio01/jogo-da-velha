@@ -172,12 +172,22 @@ function view:desenharTabuleiro()
 			
 			tabuleiro[linha][coluna] = display.newRect(larguraTela * controle / 6 ,alturaTela * controleDois/6, larguraRet, alturaRet)
 			controle = controle + 2
-			posicao = tabuleiro[linha][coluna]
+			local posicao = tabuleiro[linha][coluna]
 			posicao:setFillColor(black)
 			posicao:addEventListener("touch",novaJogada)
 			
 		end
 		controleDois = controleDois + 2
+	end
+end
+
+function view:desabilitarTouch()
+	
+	for linha = 1, 3 do
+		for coluna = 1, 3 do			
+			local posicao = tabuleiro[linha][coluna]
+			posicao:removeEventListener("touch",novaJogada)
+		end
 	end
 end
 
@@ -187,6 +197,7 @@ end
 
 function view:vencedor()
 	display.newText("VENCEU", display.contentWidth/2,display.contentHeight/2,native.systemFont, 70 )
+	self:desabilitarTouch()
 end
 
 return view
