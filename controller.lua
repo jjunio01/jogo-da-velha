@@ -12,9 +12,9 @@ controller = {
 
 function controller:draw()	
 	self.view = view
-	self.modelTabuleiro = model
-	
+	self.modelTabuleiro = model	
 	self.view:draw(self)
+	self.modelTabuleiro:criarTabuleiro()
 end
 
 function controller:jogadorAtual()
@@ -36,18 +36,23 @@ function atualizarJogador()
 end
 
 function controller:realizarJogada(posicao)
-	print(posicao)
+	
 	if posicao == 1 then
 		local jogada = self.view.tabuleiro[1][1]
 	end
 end
 
-function controller:capturarEvento(valor)
-		
-		print("capturado")
 
-print(valor)
-	--self.realizarJogada()
+
+function controller:verificarTerminoJogo()
+		
+	if self.modelTabuleiro:verificarVencedor() then
+		self.view:vencedor()
+	else
+		if self.modelTabuleiro:verificarEmpate() then
+		self.view:empatou()
+		end
+	end
 end
 
 return controller

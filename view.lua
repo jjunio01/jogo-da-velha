@@ -1,3 +1,5 @@
+--local controller = require("controller")
+
 view = {
 	
 	controlador = nil,
@@ -7,9 +9,12 @@ view = {
 }
 
 function view:draw(controller)
-	self.controlador = controller	
+
+	self.controlador = controller
 	self:desenharLinhas()
 	self:desenharTabuleiro()
+
+
 end
 
 function view:desenharCirculoNaTela(posicao)
@@ -81,13 +86,17 @@ function view:desenharLinhas()
 		
 end
 
-function view:jogada(posicao)
+function view:jogada(posicao, linha, coluna)
 
 	local jogador = view.controlador.jogadorAtual()
 	if jogador == "X" then
+		view.controlador.modelTabuleiro.tabuleiro[linha][coluna] = "X"
 		self:desenharXNaTela(posicao)
+		view.controlador:verificarTerminoJogo()
 	elseif jogador == "O" then
 		self:desenharCirculoNaTela(posicao)
+		view.controlador.modelTabuleiro.tabuleiro[linha][coluna] = "O"
+		view.controlador:verificarTerminoJogo()
 	end
 end
 
@@ -97,47 +106,47 @@ function novaJogada(evento, jogador)
 
 	if evento.phase == "began" then
 		if evento.target == tabuleiro[1][1] then
-			view:jogada(1)
+			view:jogada(1,1,1)
 			local removerTouch = tabuleiro[1][1]
 			removerTouch:removeEventListener("touch",novaJogada)
 		end
 		if evento.target == tabuleiro[1][2] then
-			view:jogada(2)
+			view:jogada(2,1,2)
 			local removerTouch = tabuleiro[1][2]
 			removerTouch:removeEventListener("touch",novaJogada)
 		end
 		if evento.target == tabuleiro[1][3] then
-			view:jogada(3)
+			view:jogada(3,1,3)
 			local removerTouch = tabuleiro[1][3]
 			removerTouch:removeEventListener("touch",novaJogada)
 		end
 		if evento.target == tabuleiro[2][1] then
-			view:jogada(4)
+			view:jogada(4,2,1)
 			local removerTouch = tabuleiro[2][1]
 			removerTouch:removeEventListener("touch",novaJogada)
 		end
 		if evento.target == tabuleiro[2][2] then
-			view:jogada(5)
+			view:jogada(5,2,2)
 			local removerTouch = tabuleiro[2][2]
 			removerTouch:removeEventListener("touch",novaJogada)
 		end
 		if evento.target == tabuleiro[2][3] then
-			view:jogada(6)
+			view:jogada(6,2,3)
 			local removerTouch = tabuleiro[2][3]
 			removerTouch:removeEventListener("touch",novaJogada)
 		end
 		if evento.target == tabuleiro[3][1] then
-			view:jogada(7)
+			view:jogada(7,3,1)
 			local removerTouch = tabuleiro[3][1]
 			removerTouch:removeEventListener("touch",novaJogada)
 		end
 		if evento.target == tabuleiro[3][2] then
-			view:jogada(8)
+			view:jogada(8,3,2)
 			local removerTouch = tabuleiro[3][2]
 			removerTouch:removeEventListener("touch",novaJogada)
 		end
 		if evento.target == tabuleiro[3][3] then
-			view:jogada(9)
+			view:jogada(9,3,3)
 			local removerTouch = tabuleiro[3][3]
 			removerTouch:removeEventListener("touch",novaJogada)
 		end
@@ -151,14 +160,13 @@ function view:desenharTabuleiro()
 
 	local larguraRet = larguraTela/3 - 2
 	local alturaRet = alturaTela/3 - 2
-	controleDois = 1
-
+	local controleDois = 1
 	tabuleiro = {}
 
 	for linha = 1, 3 do
 
 		tabuleiro[linha] = {}
-		controle = 1		
+		local controle = 1		
 		
 		for coluna = 1, 3 do			
 			
@@ -171,6 +179,14 @@ function view:desenharTabuleiro()
 		end
 		controleDois = controleDois + 2
 	end
+end
+
+function view:empatou()
+	display.newText("Empatou", display.contentWidth/2,display.contentHeight/2,native.systemFont, 70 )
+end
+
+function view:vencedor()
+	display.newText("VENCEU", display.contentWidth/2,display.contentHeight/2,native.systemFont, 70 )
 end
 
 return view
