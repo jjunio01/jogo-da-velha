@@ -18,15 +18,15 @@ function controller:draw()
 end
 
 function controller:jogadorAtual()
-
+	
 	if controleJogada % 2 == 0 then
-		controller.modelTabuleiro.jogador = "X"
+		self.modelTabuleiro.jogador = "X"
 		atualizarJogador()
 	else
-		controller.modelTabuleiro.jogador = "O"
+		self.modelTabuleiro.jogador = "O"
 		atualizarJogador()
 	end
-	return controller.modelTabuleiro.jogador
+	return self.modelTabuleiro.jogador
 end
 
 function atualizarJogador()
@@ -34,15 +34,6 @@ function atualizarJogador()
 	controleJogada = controleJogada + 1
 
 end
-
-function controller:realizarJogada(posicao)
-	
-	if posicao == 1 then
-		local jogada = self.view.tabuleiro[1][1]
-	end
-end
-
-
 
 function controller:verificarTerminoJogo()
 		

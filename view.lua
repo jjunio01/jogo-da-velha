@@ -1,10 +1,9 @@
---local controller = require("controller")
+local widget = require("widget")
 
 view = {
-	
+
 	controlador = nil,
-	jogadorAtual = nil,
-	tabuleiro = nil
+	tabuleiro = {}
 
 }
 
@@ -13,7 +12,7 @@ function view:draw(controller)
 	self.controlador = controller
 	self:desenharLinhas()
 	self:desenharTabuleiro()
-
+	print("Entrou no view:draw()")
 
 end
 
@@ -23,7 +22,7 @@ function view:desenharCirculoNaTela(posicao)
 	if posicao == 1 then
 		local circulo = display.newCircle(width/6, height/6, 30)
 	elseif posicao == 2 then
-		local circulo = display.newCircle(width/2, height/6, 30)		
+		local circulo = display.newCircle(width/2, height/6, 30)
 	elseif posicao == 3 then
 		local circulo = display.newCircle(width * 5/6, height/6, 30)
 	elseif posicao == 4 then
@@ -38,13 +37,13 @@ function view:desenharCirculoNaTela(posicao)
 		local circulo = display.newCircle(width/ 2, height *5/6, 30)
 	elseif posicao == 9 then
 		local circulo = display.newCircle(width * 5/6, height *5/6, 30)
-	end	
+	end
 end
 
 function view:desenharXNaTela(posicao)
 
-	local width = display.contentWidth 
-	local height = display.contentHeight 
+	local width = display.contentWidth
+	local height = display.contentHeight
 
 	if posicao == 1 then
 		local linhaUm = display.newLine(width/3, 0, 0,height/3)
@@ -83,71 +82,69 @@ function view:desenharLinhas()
 
 	local	colunaUm = display.newLine(display.contentWidth/3, 0, display.contentWidth/3,display.contentHeight)
 	local	colunaDois = display.newLine(display.contentWidth * 2/3, 0, display.contentWidth * 2/3,display.contentHeight)
-		
+
 end
 
 function view:jogada(posicao, linha, coluna)
 
-	local jogador = view.controlador.jogadorAtual()
+	local jogador = self.controlador:jogadorAtual()
+
 	if jogador == "X" then
-		view.controlador.modelTabuleiro.tabuleiro[linha][coluna] = "X"
+		self.controlador.modelTabuleiro.tabuleiro[linha][coluna] = "X"
 		self:desenharXNaTela(posicao)
-		view.controlador:verificarTerminoJogo()
+		self.controlador:verificarTerminoJogo()
+		print(linha)
+		print(coluna)
 	elseif jogador == "O" then
+		self.controlador.modelTabuleiro.tabuleiro[linha][coluna] = "O"
+		print(linha)
+		print(coluna)
 		self:desenharCirculoNaTela(posicao)
-		view.controlador.modelTabuleiro.tabuleiro[linha][coluna] = "O"
-		view.controlador:verificarTerminoJogo()
+		self.controlador:verificarTerminoJogo()
+
 	end
 end
 
-
-
-function novaJogada(evento, jogador)
+function novaJogada(evento)
 
 	if evento.phase == "began" then
-		if evento.target == tabuleiro[1][1] then
+
+		if evento.target == view.tabuleiro[1][1] then
 			view:jogada(1,1,1)
-			local removerTouch = tabuleiro[1][1]
+			print(view)
+			local removerTouch = view.tabuleiro[1][1]
 			removerTouch:removeEventListener("touch",novaJogada)
-		end
-		if evento.target == tabuleiro[1][2] then
+		elseif evento.target == view.tabuleiro[1][2] then
 			view:jogada(2,1,2)
-			local removerTouch = tabuleiro[1][2]
+			local removerTouch = view.tabuleiro[1][2]
 			removerTouch:removeEventListener("touch",novaJogada)
-		end
-		if evento.target == tabuleiro[1][3] then
+		elseif evento.target == view.tabuleiro[1][3] then
 			view:jogada(3,1,3)
-			local removerTouch = tabuleiro[1][3]
+			local removerTouch = view.tabuleiro[1][3]
 			removerTouch:removeEventListener("touch",novaJogada)
-		end
-		if evento.target == tabuleiro[2][1] then
+		elseif evento.target == view.tabuleiro[2][1] then
 			view:jogada(4,2,1)
-			local removerTouch = tabuleiro[2][1]
+			local removerTouch = view.tabuleiro[2][1]
 			removerTouch:removeEventListener("touch",novaJogada)
-		end
-		if evento.target == tabuleiro[2][2] then
+		elseif evento.target == view.tabuleiro[2][2] then
 			view:jogada(5,2,2)
-			local removerTouch = tabuleiro[2][2]
+			local removerTouch = view.tabuleiro[2][2]
 			removerTouch:removeEventListener("touch",novaJogada)
-		end
-		if evento.target == tabuleiro[2][3] then
+		elseif evento.target == view.tabuleiro[2][3] then
 			view:jogada(6,2,3)
-			local removerTouch = tabuleiro[2][3]
+			local removerTouch = view.tabuleiro[2][3]
 			removerTouch:removeEventListener("touch",novaJogada)
-		end
-		if evento.target == tabuleiro[3][1] then
+		elseif evento.target == view.tabuleiro[3][1] then
 			view:jogada(7,3,1)
-			local removerTouch = tabuleiro[3][1]
+			local removerTouch = view.tabuleiro[3][1]
 			removerTouch:removeEventListener("touch",novaJogada)
-		end
-		if evento.target == tabuleiro[3][2] then
+		elseif evento.target == view.tabuleiro[3][2] then
 			view:jogada(8,3,2)
-			local removerTouch = tabuleiro[3][2]
+			local removerTouch = view.tabuleiro[3][2]
 			removerTouch:removeEventListener("touch",novaJogada)
-		end
-		if evento.target == tabuleiro[3][3] then
+		elseif evento.target == view.tabuleiro[3][3] then
 			view:jogada(9,3,3)
-			local removerTouch = tabuleiro[3][3]
+			local removerTouch = view.tabuleiro[3][3]
 			removerTouch:removeEventListener("touch",novaJogada)
 		end
 	end
@@ -161,43 +158,85 @@ function view:desenharTabuleiro()
 	local larguraRet = larguraTela/3 - 2
 	local alturaRet = alturaTela/3 - 2
 	local controleDois = 1
-	tabuleiro = {}
 
 	for linha = 1, 3 do
 
-		tabuleiro[linha] = {}
-		local controle = 1		
-		
-		for coluna = 1, 3 do			
-			
-			tabuleiro[linha][coluna] = display.newRect(larguraTela * controle / 6 ,alturaTela * controleDois/6, larguraRet, alturaRet)
+		self.tabuleiro[linha] = {}
+		local controle = 1
+
+		for coluna = 1, 3 do
+
+			self.tabuleiro[linha][coluna] = display.newRect(larguraTela * controle / 6 ,alturaTela * controleDois/6, larguraRet, alturaRet)
 			controle = controle + 2
-			local posicao = tabuleiro[linha][coluna]
-			posicao:setFillColor(black)
-			posicao:addEventListener("touch",novaJogada)
-			
+			local _self = self
+			self.tabuleiro[linha][coluna]:setFillColor(black)
+			self.tabuleiro[linha][coluna]:addEventListener("touch",novaJogada)
 		end
 		controleDois = controleDois + 2
 	end
 end
 
 function view:desabilitarTouch()
-	
+
 	for linha = 1, 3 do
-		for coluna = 1, 3 do			
-			local posicao = tabuleiro[linha][coluna]
-			posicao:removeEventListener("touch",novaJogada)
+		for coluna = 1, 3 do
+			if linha == 2 and coluna == 2 then
+				print("NADA 5")
+			end
+			if linha == 2 and coluna == 3 then
+				print("NADA 6")
+			end
+			self.tabuleiro[linha][coluna]:removeEventListener("touch",novaJogada)
 		end
 	end
 end
 
 function view:empatou()
-	display.newText("Empatou", display.contentWidth/2,display.contentHeight/2,native.systemFont, 70 )
+
+	local buttonEmpatou = widget.newButton(
+    {
+        left = 100,
+        top = 200,
+        id = "button1",
+        label = "EMPATOU",
+        shape = "rect"
+    })
+
+    self:encerrarJogo()
+	--display.newText("Empatou", display.contentWidth/2,display.contentHeight/2,native.systemFont, 70 )
 end
 
 function view:vencedor()
-	display.newText("VENCEU", display.contentWidth/2,display.contentHeight/2,native.systemFont, 70 )
+	local buttonVenceu = widget.newButton(
+    {
+        left = 100,
+        top = 200,
+        id = "button1",
+        label = "VENCEU",
+        shape = "rect"
+    })
+
+	self:encerrarJogo()
 	self:desabilitarTouch()
+end
+
+function view:encerrarJogo()
+
+	function toqueButton(event)
+		if  "ended" == event.phase then
+         	self.controlador:draw()
+		end
+	end
+
+	local button1 = widget.newButton(
+    {
+        left = 100,
+        top = 300,
+        id = "button1",
+        label = "JOGAR NOVAMENTE",
+        shape = "rect",
+        onEvent = toqueButton
+    })
 end
 
 return view

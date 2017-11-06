@@ -13,10 +13,6 @@ function model:verificarVencedor()
 	for coluna = 1, 3 do
 
 		if self.tabuleiro[1][coluna] ~= nil  and self.tabuleiro[1][coluna] == self.tabuleiro[2][coluna] and self.tabuleiro[2][coluna] == self.tabuleiro[3][coluna] then
-
-			--[[self.tabuleiro[1][coluna] = "|"
-			self.tabuleiro[2][coluna] = "|"
-			self.tabuleiro[3][coluna] = "|"--]]
 			return true
 		end
 	end
@@ -25,34 +21,18 @@ function model:verificarVencedor()
 	for linha = 1, 3 do
 
 		if self.tabuleiro[linha][1] ~= nil  and self.tabuleiro[linha][1] == self.tabuleiro[linha][2] and self.tabuleiro[linha][2] == self.tabuleiro[linha][3] then
-
-			--[[self.tabuleiro[linha][1] = "-"
-			self.tabuleiro[linha][2] = "-"
-			self.tabuleiro[linha][3] = "-"--]]
 			return true
-
 		end
-
 	end
 
 	--Verificar vencedor na diagonal principal da matriz
 	if self.tabuleiro[1][1] ~= nil and self.tabuleiro[1][1] == self.tabuleiro[2][2] and self.tabuleiro[2][2] == self.tabuleiro[3][3] then
-
-		--[[self.tabuleiro[1][1] = "\\"
-		self.tabuleiro[2][2] = "\\"
-		self.tabuleiro[3][3] = "\\"--]]
 		return true
-
 	end
 
 	--Verificar vencedor na diagonal secundária da matriz
 	if self.tabuleiro[1][3] ~= nil and self.tabuleiro[1][3] == self.tabuleiro[2][2] and self.tabuleiro[2][2] == self.tabuleiro[3][1] then
-
-		--[[self.tabuleiro[1][3] = "/"
-		self.tabuleiro[2][2] = "/"
-		self.tabuleiro[3][1] = "/"]]
 		return true
-
 	end
 
 	return false
