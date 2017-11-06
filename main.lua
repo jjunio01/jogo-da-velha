@@ -6,16 +6,12 @@
 
 -- Your code here
 
-
- --local controlador = require("controller")
---controlador:draw()
-
 local widget = require("widget")
 local controlador = require("controller")
 
 function toqueButton(event)
 	if  "ended" == event.phase then
-         print("Button - Principal")
+    
          controlador:draw()
 
     end
